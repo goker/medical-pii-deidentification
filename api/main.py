@@ -72,8 +72,8 @@ This API does NOT log any input text or detected PII to ensure data privacy.
     """,
     version="1.0.0",
     contact={
-        "name": "Medical PII Removal Project",
-        "url": "https://github.com/yourusername/medical-pii-removal",
+        "name": "Medical PII De-identification Project",
+        "url": "https://github.com/goker/medical-pii-deidentification",
     },
     license_info={
         "name": "MIT License",

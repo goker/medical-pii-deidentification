@@ -59,8 +59,8 @@ Dr. [NAME] at [ORGANIZATION], [LOCATION]
 
 ### Step 1: Clone
 ```bash
-git clone https://github.com/YOUR_USERNAME/medical-pii-removal.git
-cd medical-pii-removal
+git clone https://github.com/goker/medical-pii-deidentification.git
+cd medical-pii-deidentification
 ```
 
 ### Step 2: Install
@@ -197,7 +197,7 @@ Now anyone can use production-grade PII removal in minutes.
 ## Project Structure
 
 ```
-medical-pii-removal/
+medical-pii-deidentification/
 ├── src/                    # Core library
 │   ├── pii_detector.py     # Model inference
 │   ├── deidentify.py       # Replacement strategies

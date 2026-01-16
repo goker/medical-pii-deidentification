@@ -123,7 +123,7 @@ For environments with strict PHI handling requirements:
 
 ```bash
 # Run locally
-docker run -p 8000:8000 --network none medical-pii-removal
+docker run -p 8000:8000 --network none medical-pii-deidentification
 ```
 
 Benefits:

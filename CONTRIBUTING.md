@@ -14,8 +14,8 @@ Thanks for your interest in contributing! Here's how you can help.
 ### Setup
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/medical-pii-removal.git
-cd medical-pii-removal
+git clone https://github.com/goker/medical-pii-deidentification.git
+cd medical-pii-deidentification
 python -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt

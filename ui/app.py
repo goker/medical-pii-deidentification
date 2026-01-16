@@ -382,7 +382,7 @@ with gr.Blocks(
 
             ---
 
-            **GitHub**: [medical-pii-removal](https://github.com/yourusername/medical-pii-removal)
+            **GitHub**: [medical-pii-deidentification](https://github.com/goker/medical-pii-deidentification)
             """)
 
     # Event handlers
