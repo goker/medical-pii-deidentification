@@ -1,0 +1,84 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Medical PII De-identification API - AWS Lambda Deployment
+
+Globals:
+  Function:
+    Timeout: 60
+    MemorySize: 1024
+    Runtime: python3.11
+    Environment:
+      Variables:
+        PRELOAD_MODEL: "true"
+        PII_MODEL: "OpenMed/OpenMed-PII-SuperClinical-Small-44M-v1"
+
+Parameters:
+  Stage:
+    Type: String
+    Default: prod
+    AllowedValues:
+      - dev
+      - staging
+      - prod
+
+Resources:
+  # Lambda Function
+  PIIDeidentificationFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: !Sub medical-pii-removal-${Stage}
+      CodeUri: ../../
+      Handler: lambda_handler.handler
+      Description: HIPAA-compliant PII detection and de-identification API
+      Architectures:
+        - x86_64
+      EphemeralStorage:
+        Size: 2048
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /{proxy+}
+            Method: ANY
+            RestApiId: !Ref PIIApi
+      Policies:
+        - Version: '2012-10-17'
+          Statement:
+            - Effect: Allow
+              Action:
+                - logs:CreateLogGroup
+                - logs:CreateLogStream
+                - logs:PutLogEvents
+              Resource: '*'
+
+  # API Gateway
+  PIIApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      Name: !Sub medical-pii-removal-api-${Stage}
+      StageName: !Ref Stage
+      Description: Medical PII De-identification REST API
+      Cors:
+        AllowMethods: "'GET,POST,OPTIONS'"
+        AllowHeaders: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key'"
+        AllowOrigin: "'*'"
+
+  # CloudWatch Log Group (with retention)
+  PIIFunctionLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub /aws/lambda/medical-pii-removal-${Stage}
+      RetentionInDays: 7
+
+Outputs:
+  ApiEndpoint:
+    Description: API Gateway endpoint URL
+    Value: !Sub https://${PIIApi}.execute-api.${AWS::Region}.amazonaws.com/${Stage}
+
+  FunctionArn:
+    Description: Lambda Function ARN
+    Value: !GetAtt PIIDeidentificationFunction.Arn
+
+  FunctionName:
+    Description: Lambda Function Name
+    Value: !Ref PIIDeidentificationFunction

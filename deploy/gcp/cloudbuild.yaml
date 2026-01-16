@@ -1,0 +1,66 @@
+# Google Cloud Build configuration for Medical PII De-identification
+# Builds and deploys to Cloud Run
+
+steps:
+  # Build the Docker image
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '-t'
+      - 'gcr.io/$PROJECT_ID/medical-pii-removal:$SHORT_SHA'
+      - '-t'
+      - 'gcr.io/$PROJECT_ID/medical-pii-removal:latest'
+      - '.'
+    timeout: '1200s'
+
+  # Push to Container Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'push'
+      - 'gcr.io/$PROJECT_ID/medical-pii-removal:$SHORT_SHA'
+
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'push'
+      - 'gcr.io/$PROJECT_ID/medical-pii-removal:latest'
+
+  # Deploy to Cloud Run
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+      - 'run'
+      - 'deploy'
+      - 'medical-pii-removal'
+      - '--image'
+      - 'gcr.io/$PROJECT_ID/medical-pii-removal:$SHORT_SHA'
+      - '--region'
+      - '${_REGION}'
+      - '--platform'
+      - 'managed'
+      - '--memory'
+      - '1Gi'
+      - '--cpu'
+      - '1'
+      - '--timeout'
+      - '60s'
+      - '--concurrency'
+      - '10'
+      - '--min-instances'
+      - '0'
+      - '--max-instances'
+      - '5'
+      - '--allow-unauthenticated'
+      - '--set-env-vars'
+      - 'PRELOAD_MODEL=true,MODE=api'
+
+substitutions:
+  _REGION: us-central1
+
+options:
+  logging: CLOUD_LOGGING_ONLY
+
+timeout: '1800s'
+
+images:
+  - 'gcr.io/$PROJECT_ID/medical-pii-removal:$SHORT_SHA'
+  - 'gcr.io/$PROJECT_ID/medical-pii-removal:latest'
