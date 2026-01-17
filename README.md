@@ -1,6 +1,6 @@
 # Medical PII Removal - Easy Implementation
 
-**Use OpenMed's cutting-edge PII models (released 3 days ago) with just a few clicks.**
+**Use OpenMed's cutting-edge PII models (released on Jan 13) with just a few clicks.**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
@@ -10,7 +10,7 @@
 
 ## What This Is
 
-**3 days ago**, [OpenMed released 33 state-of-the-art PII detection models](https://huggingface.co/collections/OpenMed/pii-and-de-identification) for medical text.
+**Jan 13**, [OpenMed released 33 state-of-the-art PII detection models](https://huggingface.co/collections/OpenMed/pii-and-de-identification) for medical text.
 
 **This repo makes them ridiculously easy to use.**
 
@@ -170,7 +170,7 @@ All covered:
 
 **OpenMed-PII-SuperClinical-Small-44M-v1**
 
-- Released: January 13, 2026 (3 days ago!)
+- Released: January 13, 2026
 - Parameters: 44 million (small enough for free tier)
 - Accuracy: 94%+ F1 on clinical text
 - Trained on: Real clinical data
